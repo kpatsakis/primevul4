@@ -1,0 +1,3 @@
+SampleInterleavedLSScan::~SampleInterleavedLSScan(void)
+{
+}

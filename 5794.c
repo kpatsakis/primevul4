@@ -1,0 +1,1 @@
+  bool IsCapacityFull() const { return buf_.size() >= capacity_; }

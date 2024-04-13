@@ -1,0 +1,1 @@
+  explicit VarIsInitializedOp(OpKernelConstruction* c) : OpKernel(c) {}

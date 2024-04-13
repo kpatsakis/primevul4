@@ -1,0 +1,1 @@
+  int64 Cardinality() const override { return sparse_tensor_.shape()[0]; }

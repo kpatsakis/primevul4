@@ -1,0 +1,1 @@
+  explicit ResourceGatherNdOp(OpKernelConstruction* c) : OpKernel(c) {}

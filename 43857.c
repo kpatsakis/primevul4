@@ -1,0 +1,36 @@
+static int handle_ept_violation(struct kvm_vcpu *vcpu)
+{
+	unsigned long exit_qualification;
+	gpa_t gpa;
+	u32 error_code;
+	int gla_validity;
+
+	exit_qualification = vmcs_readl(EXIT_QUALIFICATION);
+
+	gla_validity = (exit_qualification >> 7) & 0x3;
+	if (gla_validity != 0x3 && gla_validity != 0x1 && gla_validity != 0) {
+		printk(KERN_ERR "EPT: Handling EPT violation failed!\n");
+		printk(KERN_ERR "EPT: GPA: 0x%lx, GVA: 0x%lx\n",
+			(long unsigned int)vmcs_read64(GUEST_PHYSICAL_ADDRESS),
+			vmcs_readl(GUEST_LINEAR_ADDRESS));
+		printk(KERN_ERR "EPT: Exit qualification is 0x%lx\n",
+			(long unsigned int)exit_qualification);
+		vcpu->run->exit_reason = KVM_EXIT_UNKNOWN;
+		vcpu->run->hw.hardware_exit_reason = EXIT_REASON_EPT_VIOLATION;
+		return 0;
+	}
+
+	gpa = vmcs_read64(GUEST_PHYSICAL_ADDRESS);
+	trace_kvm_page_fault(gpa, exit_qualification);
+
+	/* It is a write fault? */
+	error_code = exit_qualification & (1U << 1);
+	/* It is a fetch fault? */
+	error_code |= (exit_qualification & (1U << 2)) << 2;
+	/* ept page table is present? */
+	error_code |= (exit_qualification >> 3) & 0x1;
+
+	vcpu->arch.exit_qualification = exit_qualification;
+
+	return kvm_mmu_page_fault(vcpu, gpa, error_code, NULL, 0);
+}

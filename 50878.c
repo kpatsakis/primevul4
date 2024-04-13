@@ -1,0 +1,15 @@
+sched_write(struct file *file, const char __user *buf,
+	    size_t count, loff_t *offset)
+{
+	struct inode *inode = file_inode(file);
+	struct task_struct *p;
+
+	p = get_proc_task(inode);
+	if (!p)
+		return -ESRCH;
+	proc_sched_set_task(p);
+
+	put_task_struct(p);
+
+	return count;
+}

@@ -1,0 +1,1 @@
+  bool IsBounded() const { return capacity_ > 0 || memory_limit_ > 0; }

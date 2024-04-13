@@ -1,0 +1,3 @@
+SingleComponentLSScan::~SingleComponentLSScan(void)
+{
+}

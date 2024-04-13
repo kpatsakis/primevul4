@@ -1,0 +1,29 @@
+static void decrypt_callback(void *priv, u8 *srcdst, unsigned int nbytes)
+{
+	const unsigned int bsize = CAMELLIA_BLOCK_SIZE;
+	struct crypt_priv *ctx = priv;
+	int i;
+
+	ctx->fpu_enabled = camellia_fpu_begin(ctx->fpu_enabled, nbytes);
+
+	if (nbytes >= CAMELLIA_AESNI_AVX2_PARALLEL_BLOCKS * bsize) {
+		camellia_ecb_dec_32way(ctx->ctx, srcdst, srcdst);
+		srcdst += bsize * CAMELLIA_AESNI_AVX2_PARALLEL_BLOCKS;
+		nbytes -= bsize * CAMELLIA_AESNI_AVX2_PARALLEL_BLOCKS;
+	}
+
+	if (nbytes >= CAMELLIA_AESNI_PARALLEL_BLOCKS * bsize) {
+		camellia_ecb_dec_16way(ctx->ctx, srcdst, srcdst);
+		srcdst += bsize * CAMELLIA_AESNI_PARALLEL_BLOCKS;
+		nbytes -= bsize * CAMELLIA_AESNI_PARALLEL_BLOCKS;
+	}
+
+	while (nbytes >= CAMELLIA_PARALLEL_BLOCKS * bsize) {
+		camellia_dec_blk_2way(ctx->ctx, srcdst, srcdst);
+		srcdst += bsize * CAMELLIA_PARALLEL_BLOCKS;
+		nbytes -= bsize * CAMELLIA_PARALLEL_BLOCKS;
+	}
+
+	for (i = 0; i < nbytes / bsize; i++, srcdst += bsize)
+		camellia_dec_blk(ctx->ctx, srcdst, srcdst);
+}

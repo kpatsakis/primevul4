@@ -1,0 +1,1 @@
+  explicit AssignUpdateVariableOp(OpKernelConstruction* c) : OpKernel(c) {}

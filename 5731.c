@@ -1,0 +1,1 @@
+  bool EnableInputForwarding() const final { return false; }

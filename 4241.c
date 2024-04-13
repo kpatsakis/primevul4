@@ -1,0 +1,1 @@
+  enum PartMode get_PartMode(int x,int y) const override { return img->get_PartMode(x,y); }

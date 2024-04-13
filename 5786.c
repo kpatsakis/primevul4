@@ -1,0 +1,1 @@
+  explicit StageClearOp(OpKernelConstruction* ctx) : OpKernel(ctx) {}

@@ -1,0 +1,1 @@
+static void dummy_free(struct digest *d) {}

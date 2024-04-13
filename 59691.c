@@ -1,0 +1,45 @@
+usage (int ecode, FILE *out)
+{
+  fprintf (out, "usage: %s [OPTIONS...] COMMAND [ARGS...]\n\n", argv0);
+
+  fprintf (out,
+           "    --help                       Print this help\n"
+           "    --version                    Print version\n"
+           "    --args FD                    Parse nul-separated args from FD\n"
+           "    --unshare-user               Create new user namespace (may be automatically implied if not setuid)\n"
+           "    --unshare-user-try           Create new user namespace if possible else continue by skipping it\n"
+           "    --unshare-ipc                Create new ipc namespace\n"
+           "    --unshare-pid                Create new pid namespace\n"
+           "    --unshare-net                Create new network namespace\n"
+           "    --unshare-uts                Create new uts namespace\n"
+           "    --unshare-cgroup             Create new cgroup namespace\n"
+           "    --unshare-cgroup-try         Create new cgroup namespace if possible else continue by skipping it\n"
+           "    --uid UID                    Custom uid in the sandbox (requires --unshare-user)\n"
+           "    --gid GID                    Custon gid in the sandbox (requires --unshare-user)\n"
+           "    --hostname NAME              Custom hostname in the sandbox (requires --unshare-uts)\n"
+           "    --chdir DIR                  Change directory to DIR\n"
+           "    --setenv VAR VALUE           Set an environment variable\n"
+           "    --unsetenv VAR               Unset an environment variable\n"
+           "    --lock-file DEST             Take a lock on DEST while sandbox is running\n"
+           "    --sync-fd FD                 Keep this fd open while sandbox is running\n"
+           "    --bind SRC DEST              Bind mount the host path SRC on DEST\n"
+           "    --dev-bind SRC DEST          Bind mount the host path SRC on DEST, allowing device access\n"
+           "    --ro-bind SRC DEST           Bind mount the host path SRC readonly on DEST\n"
+           "    --remount-ro DEST            Remount DEST as readonly, it doesn't recursively remount\n"
+           "    --exec-label LABEL           Exec Label for the sandbox\n"
+           "    --file-label LABEL           File label for temporary sandbox content\n"
+           "    --proc DEST                  Mount procfs on DEST\n"
+           "    --dev DEST                   Mount new dev on DEST\n"
+           "    --tmpfs DEST                 Mount new tmpfs on DEST\n"
+           "    --mqueue DEST                Mount new mqueue on DEST\n"
+           "    --dir DEST                   Create dir at DEST\n"
+           "    --file FD DEST               Copy from FD to dest DEST\n"
+           "    --bind-data FD DEST          Copy from FD to file which is bind-mounted on DEST\n"
+           "    --ro-bind-data FD DEST       Copy from FD to file which is readonly bind-mounted on DEST\n"
+           "    --symlink SRC DEST           Create symlink at DEST with target SRC\n"
+           "    --seccomp FD                 Load and use seccomp rules from FD\n"
+           "    --block-fd FD                Block on FD until some data to read is available\n"
+           "    --info-fd FD                 Write information about the running container to FD\n"
+          );
+  exit (ecode);
+}

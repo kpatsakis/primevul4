@@ -1,0 +1,1 @@
+  void accept(std::shared_ptr<ServerTransportParametersExtension>) override {}

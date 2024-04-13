@@ -1,0 +1,1 @@
+  MotionVectorAccess_de265_image(const de265_image* i) : img(i) { }
